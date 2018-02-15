@@ -1,0 +1,82 @@
+<?php
+namespace %apiName%\\%Version%\\Rest;
+
+return [
+    'router' => [
+        'routes' => [
+            '%api_name%.rest.%left_service%_has_%right_service%' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/%route_basepath%%left_service%/:%left_service%_id/%right_service%[/:%right_service%_id]',
+                    'defaults' => [
+                        'controller' => '%apiName%\\%Version%\\Rest\\%leftService%Has%rightService%\\Controller',
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'zf-versioning' => [
+        'uri' => [
+            '%api_name%.rest.%left_service%_has_%right_service%' => '%api_name%.rest.%left_service%_has_%right_service%',
+        ],
+    ],
+    'zf-rest' => [
+        '%apiName%\\%Version%\\Rest\\%leftService%Has%rightService%\\Controller' => [
+            'collection_class' => \%apiName%\%Version%\Rest\%leftService%Has%rightService%\%leftService%Has%rightService%Collection::class,
+            'collection_name' => '%left_service%_has_%right_service%',
+            'entity_class' => \%apiName%\%Version%\Rest\%leftService%Has%rightService%\%leftService%Has%rightService%Entity::class,
+            'route_identifier_name' => '%right_service%_id',
+            'page_size' => 25,
+            'collection_http_methods' => [
+                'GET' => 'GET',
+                'POST' => 'POST',
+            ],
+            'collection_query_whitelist' => [],
+            'entity_http_methods' => [
+                'GET' => 'GET',
+                'PUT' => 'PUT',
+                'PATCH' => 'PATCH',
+                'DELETE' => 'DELETE',
+            ],
+            'listener' => '%apiName%\\%Version%\\Rest\\%leftService%Has%rightService%\\%leftService%Has%rightService%Resource',
+            'route_name' => '%api_name%.rest.%left_service%_has_%right_service%',
+            'page_size_param' => null,
+            'service_name' => '%leftService%Has%rightService%',
+        ],
+    ],
+    'zf-content-negotiation' => [
+        'controllers' => [
+            '%apiName%\\%Version%\\Rest\\%leftService%Has%rightService%\\Controller' => 'HalJson',
+        ],
+        'accept_whitelist' => [
+            '%apiName%\\%Version%\\Rest\\%leftService%Has%rightService%\\Controller' => [
+                'application/vnd.%api_name%.%version%+json' => 'application/vnd.%api_name%.%version%+json',
+                'application/hal+json' => 'application/hal+json',
+                'application/json' => 'application/json',
+            ],
+        ],
+        'content_type_whitelist' => [
+            '%apiName%\\%Version%\\Rest\\%leftService%Has%rightService%\\Controller' => [
+                'application/vnd.%api_name%.%version%+json' => 'application/vnd.%api_name%.%version%+json',
+                'application/json' => 'application/json',
+            ],
+        ],
+    ],
+    'zf-hal' => [
+        'metadata_map' => [
+            \%apiName%\%Version%\Rest\%leftService%Has%rightService%\%leftService%Has%rightService%Entity::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => '%api_name%.rest.%left_service%_has_%right_service%',
+                'route_identifier_name' => '%right_service%_id',
+                'hydrator' => \Zend\Hydrator\ArraySerializable::class,
+            ],
+            \%apiName%\%Version%\Rest\%leftService%Has%rightService%\%leftService%Has%rightService%Collection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => '%api_name%.rest.%left_service%_has_%right_service%',
+                'route_identifier_name' => '%right_service%_id',
+                'is_collection' => true,
+            ],
+        ],
+    ],
+    'input_filter_specs' => [],
+];

@@ -1,0 +1,54 @@
+<?php
+
+namespace %apiName%\\%Version%\\Rest\\%rightService%Has%leftService%;
+
+use ApigilityTools\Hal\HalLinkListenerFactory;
+
+return [
+    'service_manager' => [
+        'factories' => [
+            __NAMESPACE__ . '\\%rightService%Has%leftService%Resource' => \ApigilityTools\Rest\Resource\ResourceListenerFactory::class,
+            __NAMESPACE__ . '\\Mapper'                  => \ApigilityTools\Mapper\MapperFactory::class,
+            __NAMESPACE__ . '\\%rightService%Has%leftService%Entity'   => \ApigilityTools\Rest\Entity\EventAwareEntityFactory::class,
+            __NAMESPACE__ . '\\HalLinkListener'         => HalLinkListenerFactory::class,
+        ],
+    ],
+    'apigility-tools' => [
+        'actuator-mapper' => [
+            __NAMESPACE__ . '\\%rightService%Has%leftService%Resource' => [
+                'mapper_class'  => __NAMESPACE__ . '\\Mapper',
+                'hal_listeners' => [
+                    __NAMESPACE__ . '\\HalLinkListener' => __NAMESPACE__ . '\\HalLinkListener',
+                ],
+            ],
+            __NAMESPACE__ . '\\Mapper'                  => [
+                'namespace'                          => __NAMESPACE__,
+                'db_adapter'                         => 'Gnc\\Db\\Adapter\\Locale',
+                'db_schema'                          => '%db_schema%',
+                'db_table'                           => '%db_table%',
+                'route_association_identifier_name'  => '%right_service%_id',
+                'entity_association_identifier_name' => 'id',
+                'association_joins'                  => [
+                    [
+                        'entity_association_identifier_name' => '%left_service%_id',
+                        'route_association_identifier_name'  => '%left_service%_id',
+                        'db_schema'                          => 'hrms',
+                        'db_table'                           => '%has_table%',
+                        'on'                                 => [
+                            ['id', '%right_service%_id'],
+                        ],
+                        'columns'                            => [],
+                    ],
+                ],
+                'mapper-listeners'                   => [
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereIdListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Feature\\AssociationManyListener',
+                ],
+            ],
+            __NAMESPACE__ . '\\%rightService%Has%leftService%Entity'   => [
+                'entity-listeners' => [
+                ],
+            ],
+        ],
+    ],
+];

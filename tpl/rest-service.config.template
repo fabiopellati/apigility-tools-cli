@@ -1,0 +1,39 @@
+<?php
+
+namespace %apiName%\V1\Rest\%serviceName%;
+return [
+    'service_manager' => [
+        'factories' => [
+            __NAMESPACE__ . '\\%serviceName%Resource' => \ApigilityTools\Rest\Resource\ResourceListenerFactory::class,
+            __NAMESPACE__ . '\\Mapper'             => \ApigilityTools\Mapper\MapperFactory::class,
+            __NAMESPACE__ . '\\%serviceName%Entity'   => \ApigilityTools\Rest\Entity\EventAwareEntityFactory::class,
+        ],
+    ],
+    'apigility-tools' => [
+        'actuator-mapper' => [
+            __NAMESPACE__ . '\\%serviceName%Resource' => [
+                'mapper_class' => __NAMESPACE__ . '\\Mapper',
+            ],
+            __NAMESPACE__ . '\\Mapper'             => [
+                'namespace'        => __NAMESPACE__,
+                'db_adapter'       => 'Gnc\\Db\\Adapter\\Locale',
+                'db_schema'        => '%db_schema%',
+                'db_table'         => '%db_table%',
+                'mapper-listeners' => [
+                    'ApigilityTools\\SqlActuator\\Listener\\FetchListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\FetchAllListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\CreateListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\UpdateListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\DeleteListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\UpdateQueryListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\DeleteQueryListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\InsertQueryListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereIdListener',
+                ],
+            ],
+            __NAMESPACE__ . '\\%serviceName%Entity'   => [
+                'entity-listeners' => [],
+            ],
+        ],
+    ],
+];
