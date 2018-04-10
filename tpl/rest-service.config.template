@@ -1,34 +1,64 @@
 <?php
 
-namespace %apiName%\V1\Rest\%serviceName%;
+namespace %apiName%\%Version%\Rest\%serviceName%;
 return [
     'service_manager' => [
         'factories' => [
             __NAMESPACE__ . '\\%serviceName%Resource' => \ApigilityTools\Rest\Resource\ResourceListenerFactory::class,
-            __NAMESPACE__ . '\\Mapper'             => \ApigilityTools\Mapper\MapperFactory::class,
+            __NAMESPACE__ . '\\Mapper'                => \ApigilityTools\Mapper\MapperFactory::class,
             __NAMESPACE__ . '\\%serviceName%Entity'   => \ApigilityTools\Rest\Entity\EventAwareEntityFactory::class,
+            __NAMESPACE__ . '\\HalLinkListener'         => \ApigilityTools\Hal\HalLinkListenerFactory::class,
+
         ],
     ],
     'apigility-tools' => [
         'actuator-mapper' => [
             __NAMESPACE__ . '\\%serviceName%Resource' => [
                 'mapper_class' => __NAMESPACE__ . '\\Mapper',
+                'hal_listeners' => [
+//                    __NAMESPACE__ . '\\HalLinkListener' => __NAMESPACE__ . '\\HalLinkListener',
+                ],
+
             ],
-            __NAMESPACE__ . '\\Mapper'             => [
+            __NAMESPACE__ . '\\Mapper'                => [
                 'namespace'        => __NAMESPACE__,
-                'db_adapter'       => 'Gnc\\Db\\Adapter\\Locale',
+                'db_adapter'       => '%db_adapter%',
                 'db_schema'        => '%db_schema%',
                 'db_table'         => '%db_table%',
                 'mapper-listeners' => [
-                    'ApigilityTools\\SqlActuator\\Listener\\FetchListener',
-                    'ApigilityTools\\SqlActuator\\Listener\\FetchAllListener',
-                    'ApigilityTools\\SqlActuator\\Listener\\CreateListener',
-                    'ApigilityTools\\SqlActuator\\Listener\\UpdateListener',
-                    'ApigilityTools\\SqlActuator\\Listener\\DeleteListener',
-                    'ApigilityTools\\SqlActuator\\Listener\\Query\\UpdateQueryListener',
-                    'ApigilityTools\\SqlActuator\\Listener\\Query\\DeleteQueryListener',
-                    'ApigilityTools\\SqlActuator\\Listener\\Query\\InsertQueryListener',
-                    'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereIdListener',
+                    /**
+                     * resource listeners
+                     */
+                    'ApigilityTools\\SqlActuator\\Listener\\SqlListener'      => 'ApigilityTools\\SqlActuator\\Listener\\SqlListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\FetchListener'    => 'ApigilityTools\\SqlActuator\\Listener\\FetchListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\FetchAllListener' => 'ApigilityTools\\SqlActuator\\Listener\\FetchAllListener',
+                    //'ApigilityTools\\SqlActuator\\Listener\\CreateListener'   => 'ApigilityTools\\SqlActuator\\Listener\\CreateListener',
+                    //'ApigilityTools\\SqlActuator\\Listener\\UpdateListener'   => 'ApigilityTools\\SqlActuator\\Listener\\UpdateListener',
+                    //'ApigilityTools\\SqlActuator\\Listener\\DeleteListener'   => 'ApigilityTools\\SqlActuator\\Listener\\DeleteListener',
+
+                    /**
+                     * sql listeners
+                     */
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\ConstraintWhereListener'                  => 'ApigilityTools\\SqlActuator\\Listener\\Query\\ConstraintWhereListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\SelectQueryListener' => 'ApigilityTools\\SqlActuator\\Listener\\Query\\SelectQueryListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\UpdateQueryListener' => 'ApigilityTools\\SqlActuator\\Listener\\Query\\UpdateQueryListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\DeleteQueryListener' => 'ApigilityTools\\SqlActuator\\Listener\\Query\\DeleteQueryListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\InsertQueryListener' => 'ApigilityTools\\SqlActuator\\Listener\\Query\\InsertQueryListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereIdListener'     => 'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereIdListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\RunQueryListener'                         => 'ApigilityTools\\SqlActuator\\Listener\\Query\\RunQueryListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\CountAffectedQueryListener'               => 'ApigilityTools\\SqlActuator\\Listener\\Query\\CountAffectedQueryListener',
+                    'ApigilityTools\\SqlActuator\\Hydrator\\HydratorDbResultListener'                        => 'ApigilityTools\\SqlActuator\\Hydrator\\HydratorDbResultListener',
+                    'ApigilityTools\\SqlActuator\\Hydrator\\HydratorPreLimitedDbResultsetCollectionListener' => 'ApigilityTools\\SqlActuator\\Hydrator\\HydratorPreLimitedDbResultsetCollectionListener',
+
+                    /**
+                     * feature listeners
+                     */
+                    'ApigilityTools\\SqlActuator\\Listener\\Feature\\PaginatorListener' =>'ApigilityTools\\SqlActuator\\Listener\\Feature\\PaginatorListener',
+                    // 'ApigilityTools\\SqlActuator\\Listener\\Feature\\SearchableListener',
+                    // 'ApigilityTools\\SqlActuator\\Listener\\Feature\\OrderableListener',
+                    // 'ApigilityTools\\SqlActuator\\Listener\\Feature\\FilterTextListener',
+                    // 'ApigilityTools\\SqlActuator\\Listener\\Feature\\SoftDeleteListener',
+
                 ],
             ],
             __NAMESPACE__ . '\\%serviceName%Entity'   => [

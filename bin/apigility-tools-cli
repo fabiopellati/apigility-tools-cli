@@ -3,25 +3,29 @@
 
 namespace Zend\Expressive\Tooling;
 
-
 use Symfony\Component\Console\Application;
-
-const VERSION = '%version%';
+use Symfony\Component\Console\Input\ArgvInput;
 
 // Setup/verify autoloading
 if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
     require $a;
-} elseif (file_exists($a = __DIR__ . '/../vendor/autoload.php')) {
+} else if (file_exists($a = __DIR__ . '/../vendor/autoload.php')) {
     require $a;
-} elseif (file_exists($a = __DIR__ . '/../autoload.php')) {
+} else if (file_exists($a = __DIR__ . '/../autoload.php')) {
     require $a;
 } else {
     fwrite(STDERR, 'Cannot locate autoloader; please run "composer install"' . PHP_EOL);
     exit(1);
 }
-
-$application = new Application('expressive', VERSION);
-$application->addCommands([
-    new \ApigilityTools\Cli\CreateRest\CreateRestCommand('rest.create')
-]);
-$application->run();
+$application = new Application('cli');
+$application->addCommands(
+    [
+        new \ApigilityTools\Cli\CreateRest\CreateRestApiCommand('create.rest.api'),
+        new \ApigilityTools\Cli\CreateRest\CreateRestHasApiCommand('create.rest.has.api'),
+        new \ApigilityTools\Cli\CreateRest\CreateRestServiceCommand('create.rest.service'),
+        new \ApigilityTools\Cli\CreateRest\CreateRestHasServiceCommand('create.rest.has.service'),
+        new \ApigilityTools\Cli\CreateRest\LoadRestApiDbInputFilterCommand('load.db.input.filter'),
+    ]);
+$input= new ArgvInput();
+$input->setInteractive(true);
+$application->run($input);

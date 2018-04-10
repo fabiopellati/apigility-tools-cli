@@ -1,0 +1,10 @@
+<?php
+
+namespace %apiName%\%Version%\Rest\%serviceName%;
+
+use Zend\Paginator\Paginator;
+
+class %serviceName%Collection
+    extends Paginator
+{
+}

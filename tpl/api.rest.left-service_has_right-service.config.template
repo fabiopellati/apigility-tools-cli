@@ -1,15 +1,15 @@
 <?php
-namespace %apiName%\\%Version%\\Rest;
+namespace %apiName%\%Version%\Rest\%leftServiceName%Has%rightServiceName%;
 
 return [
     'router' => [
         'routes' => [
-            '%api_name%.rest.%left_service%_has_%right_service%' => [
+            '%api_name%.rest.%left_service_name%_has_%right_service_name%' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/%route_basepath%%left_service%/:%left_service%_id/%right_service%[/:%right_service%_id]',
+                    'route' => '/%route_basepath%%left_service_name%/:%left_service_name%_id/%right_service_name%[/:%right_service_name%_id]',
                     'defaults' => [
-                        'controller' => '%apiName%\\%Version%\\Rest\\%leftService%Has%rightService%\\Controller',
+                        'controller' => '%apiName%\\%Version%\\Rest\\%leftServiceName%Has%rightServiceName%\\Controller',
                     ],
                 ],
             ],
@@ -17,46 +17,46 @@ return [
     ],
     'zf-versioning' => [
         'uri' => [
-            '%api_name%.rest.%left_service%_has_%right_service%' => '%api_name%.rest.%left_service%_has_%right_service%',
+            '%api_name%.rest.%left_service_name%_has_%right_service_name%' => '%api_name%.rest.%left_service_name%_has_%right_service_name%',
         ],
     ],
     'zf-rest' => [
-        '%apiName%\\%Version%\\Rest\\%leftService%Has%rightService%\\Controller' => [
-            'collection_class' => \%apiName%\%Version%\Rest\%leftService%Has%rightService%\%leftService%Has%rightService%Collection::class,
-            'collection_name' => '%left_service%_has_%right_service%',
-            'entity_class' => \%apiName%\%Version%\Rest\%leftService%Has%rightService%\%leftService%Has%rightService%Entity::class,
-            'route_identifier_name' => '%right_service%_id',
+        '%apiName%\\%Version%\\Rest\\%leftServiceName%Has%rightServiceName%\\Controller' => [
+            'collection_class' => \%apiName%\%Version%\Rest\%leftServiceName%Has%rightServiceName%\%leftServiceName%Has%rightServiceName%Collection::class,
+            'collection_name' => '%left_service_name%_has_%right_service_name%',
+            'entity_class' => \%apiName%\%Version%\Rest\%leftServiceName%Has%rightServiceName%\%leftServiceName%Has%rightServiceName%Entity::class,
+            'route_identifier_name' => '%right_service_name%_id',
             'page_size' => 25,
             'collection_http_methods' => [
-                'GET' => 'GET',
-                'POST' => 'POST',
+                0 => 'GET',
+                1 => 'POST',
             ],
             'collection_query_whitelist' => [],
             'entity_http_methods' => [
-                'GET' => 'GET',
-                'PUT' => 'PUT',
-                'PATCH' => 'PATCH',
-                'DELETE' => 'DELETE',
+                0 => 'GET',
+                1 => 'PUT',
+                2 => 'PATCH',
+                3 => 'DELETE',
             ],
-            'listener' => '%apiName%\\%Version%\\Rest\\%leftService%Has%rightService%\\%leftService%Has%rightService%Resource',
-            'route_name' => '%api_name%.rest.%left_service%_has_%right_service%',
+            'listener' => '%apiName%\\%Version%\\Rest\\%leftServiceName%Has%rightServiceName%\\%leftServiceName%Has%rightServiceName%Resource',
+            'route_name' => '%api_name%.rest.%left_service_name%_has_%right_service_name%',
             'page_size_param' => null,
-            'service_name' => '%leftService%Has%rightService%',
+            'service_name' => '%leftServiceName%Has%rightServiceName%',
         ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
-            '%apiName%\\%Version%\\Rest\\%leftService%Has%rightService%\\Controller' => 'HalJson',
+            '%apiName%\\%Version%\\Rest\\%leftServiceName%Has%rightServiceName%\\Controller' => 'HalJson',
         ],
         'accept_whitelist' => [
-            '%apiName%\\%Version%\\Rest\\%leftService%Has%rightService%\\Controller' => [
+            '%apiName%\\%Version%\\Rest\\%leftServiceName%Has%rightServiceName%\\Controller' => [
                 'application/vnd.%api_name%.%version%+json' => 'application/vnd.%api_name%.%version%+json',
                 'application/hal+json' => 'application/hal+json',
                 'application/json' => 'application/json',
             ],
         ],
         'content_type_whitelist' => [
-            '%apiName%\\%Version%\\Rest\\%leftService%Has%rightService%\\Controller' => [
+            '%apiName%\\%Version%\\Rest\\%leftServiceName%Has%rightServiceName%\\Controller' => [
                 'application/vnd.%api_name%.%version%+json' => 'application/vnd.%api_name%.%version%+json',
                 'application/json' => 'application/json',
             ],
@@ -64,16 +64,16 @@ return [
     ],
     'zf-hal' => [
         'metadata_map' => [
-            \%apiName%\%Version%\Rest\%leftService%Has%rightService%\%leftService%Has%rightService%Entity::class => [
-                'entity_identifier_name' => 'id',
-                'route_name' => '%api_name%.rest.%left_service%_has_%right_service%',
-                'route_identifier_name' => '%right_service%_id',
+            \%apiName%\%Version%\Rest\%leftServiceName%Has%rightServiceName%\%leftServiceName%Has%rightServiceName%Entity::class => [
+                'entity_identifier_name' => '%entity_identifier_name%',
+                'route_name' => '%api_name%.rest.%left_service_name%_has_%right_service_name%',
+                'route_identifier_name' => '%right_service_name%_id',
                 'hydrator' => \Zend\Hydrator\ArraySerializable::class,
             ],
-            \%apiName%\%Version%\Rest\%leftService%Has%rightService%\%leftService%Has%rightService%Collection::class => [
-                'entity_identifier_name' => 'id',
-                'route_name' => '%api_name%.rest.%left_service%_has_%right_service%',
-                'route_identifier_name' => '%right_service%_id',
+            \%apiName%\%Version%\Rest\%leftServiceName%Has%rightServiceName%\%leftServiceName%Has%rightServiceName%Collection::class => [
+                'entity_identifier_name' => '%entity_identifier_name%',
+                'route_name' => '%api_name%.rest.%left_service_name%_has_%right_service_name%',
+                'route_identifier_name' => '%right_service_name%_id',
                 'is_collection' => true,
             ],
         ],

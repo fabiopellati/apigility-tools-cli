@@ -1,21 +1,22 @@
 <?php
 
-namespace %apiName%\\%Version%\\Rest\\%rightService%Has%leftService%;
+namespace %apiName%\%Version%\Rest\%leftServiceName%Has%rightServiceName%;
 
 use ApigilityTools\Hal\HalLinkListenerFactory;
 
 return [
     'service_manager' => [
         'factories' => [
-            __NAMESPACE__ . '\\%rightService%Has%leftService%Resource' => \ApigilityTools\Rest\Resource\ResourceListenerFactory::class,
+            __NAMESPACE__ . '\\%leftServiceName%Has%rightServiceName%Resource' =>
+            \ApigilityTools\Rest\Resource\ResourceListenerFactory::class,
             __NAMESPACE__ . '\\Mapper'                  => \ApigilityTools\Mapper\MapperFactory::class,
-            __NAMESPACE__ . '\\%rightService%Has%leftService%Entity'   => \ApigilityTools\Rest\Entity\EventAwareEntityFactory::class,
+            __NAMESPACE__ . '\\%leftServiceName%Has%rightServiceName%Entity'   => \ApigilityTools\Rest\Entity\EventAwareEntityFactory::class,
             __NAMESPACE__ . '\\HalLinkListener'         => HalLinkListenerFactory::class,
         ],
     ],
     'apigility-tools' => [
         'actuator-mapper' => [
-            __NAMESPACE__ . '\\%rightService%Has%leftService%Resource' => [
+            __NAMESPACE__ . '\\%leftServiceName%Has%rightServiceName%Resource' => [
                 'mapper_class'  => __NAMESPACE__ . '\\Mapper',
                 'hal_listeners' => [
                     __NAMESPACE__ . '\\HalLinkListener' => __NAMESPACE__ . '\\HalLinkListener',
@@ -23,26 +24,47 @@ return [
             ],
             __NAMESPACE__ . '\\Mapper'                  => [
                 'namespace'                          => __NAMESPACE__,
-                'db_adapter'                         => 'Gnc\\Db\\Adapter\\Locale',
+                'db_adapter'                         => '%db_adapter%',
                 'db_schema'                          => '%db_schema%',
                 'db_table'                           => '%db_table%',
-                'route_association_identifier_name'  => '%right_service%_id',
-                'entity_association_identifier_name' => 'id',
+                  /**
+                    * todo chiave non necessarie in relazione Many
+                    */
+                //'route_association_identifier_name'  => '%right_service_name%_id',
+                //'entity_association_identifier_name' => 'id',
                 'association_joins'                  => [
                     [
-                        'entity_association_identifier_name' => '%left_service%_id',
-                        'route_association_identifier_name'  => '%left_service%_id',
-                        'db_schema'                          => 'hrms',
+                        'entity_association_identifier_name' => '%left_service_name%_id',
+                        'route_association_identifier_name'  => '%left_service_name%_id',
+                        'db_schema'                          => '%db_schema%',
                         'db_table'                           => '%has_table%',
                         'on'                                 => [
-                            ['id', '%right_service%_id'],
+                            /**
+                             * "Left Join left_service_id=right_service_id"
+                             */
+                            ['id', '%right_service_name%_id'],
                         ],
+
+                        /**
+                         * list of column from "has" table: it's association attributes
+                         */
                         'columns'                            => [],
                     ],
                 ],
                 'mapper-listeners'                   => [
-                    'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereIdListener',
-                    'ApigilityTools\\SqlActuator\\Listener\\Feature\\AssociationManyListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\SqlListener'      => 'ApigilityTools\\SqlActuator\\Listener\\SqlListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\FetchListener'    => 'ApigilityTools\\SqlActuator\\Listener\\FetchListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\FetchAllListener' => 'ApigilityTools\\SqlActuator\\Listener\\FetchAllListener',
+
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\ConstraintWhereListener'                  => 'ApigilityTools\\SqlActuator\\Listener\\Query\\ConstraintWhereListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\SelectQueryListener'                      => 'ApigilityTools\\SqlActuator\\Listener\\Query\\SelectQueryListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereIdListener'                          => 'ApigilityTools\\SqlActuator\\Listener\\Query\\WhereIdListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Feature\\AssociationManyListener'                => 'ApigilityTools\\SqlActuator\\Listener\\Feature\\AssociationManyListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\RunQueryListener'                         => 'ApigilityTools\\SqlActuator\\Listener\\Query\\RunQueryListener',
+                    'ApigilityTools\\SqlActuator\\Listener\\Query\\CountAffectedQueryListener'               => 'ApigilityTools\\SqlActuator\\Listener\\Query\\CountAffectedQueryListener',
+                    'ApigilityTools\\SqlActuator\\Hydrator\\HydratorDbResultListener'                        => 'ApigilityTools\\SqlActuator\\Hydrator\\HydratorDbResultListener',
+                    'ApigilityTools\\SqlActuator\\Hydrator\\HydratorPreLimitedDbResultsetCollectionListener' => 'ApigilityTools\\SqlActuator\\Hydrator\\HydratorPreLimitedDbResultsetCollectionListener',
+
                 ],
             ],
             __NAMESPACE__ . '\\%rightService%Has%leftService%Entity'   => [

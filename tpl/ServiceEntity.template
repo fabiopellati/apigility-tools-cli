@@ -1,10 +1,10 @@
 <?php
 
-namespace HrmsApi\V1\Rest\BadgeHasRisorse;
+namespace %apiName%\%Version%\Rest\%serviceName%;
 
 use ApigilityTools\Rest\Entity\EventAwareEntity;
 
-class BadgeHasRisorseEntity
+class %serviceName%Entity
     extends EventAwareEntity
 {
 }

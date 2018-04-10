@@ -1,5 +1,6 @@
 <?php
-namespace %apiName%\\%Version%\\Rest;
+namespace %apiName%\%Version%\Rest\%serviceName%;
+
 return [
     'router' => [
         'routes' => [
@@ -8,7 +9,7 @@ return [
                 'options' => [
                     'route' => '/%route_basepath%%service_name%[/:%service_name%_id]',
                     'defaults' => [
-                        'controller' => '%apiName%\\%Version%\\RestController',
+                        'controller' => '%apiName%\\%Version%\\Rest\\%serviceName%\\Controller',
                     ],
                 ],
             ],
@@ -20,42 +21,42 @@ return [
         ],
     ],
     'zf-rest' => [
-        '%apiName%\\%Version%\\RestController' => [
-            'listener' => '%apiName%\\%Version%\\Rest%serviceName%Resource',
+        '%apiName%\\%Version%\\Rest\\%serviceName%\\Controller' => [
+            'listener' => '%apiName%\\%Version%\\Rest\\%serviceName%\\%serviceName%Resource',
             'route_name' => '%api_name%.rest.%service_name%',
             'route_identifier_name' => '%route_identifier_name%',
             'collection_name' => '%collection_name%',
             'entity_http_methods' => [
-                'DELETE' => 'DELETE',
-                'GET' => 'GET',
-                'PATCH' => 'PATCH',
-                'PUT' => 'PUT',
+                0 => 'DELETE',
+                1 => 'GET',
+                2 => 'PATCH',
+                3 => 'PUT',
             ],
             'collection_http_methods' => [
-                'GET' => 'GET',
-                'POST' => 'POST',
+                 0 => 'GET',
+                 1 =>'POST',
             ],
             'collection_query_whitelist' => [],
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => \%apiName%\\%Version%\\Rest%serviceName%Entity::class,
-            'collection_class' => \%apiName%\\%Version%\\Rest%serviceName%Collection::class,
+            'entity_class' => \%apiName%\%Version%\Rest\%serviceName%\%serviceName%Entity::class,
+            'collection_class' => \%apiName%\%Version%\Rest\%serviceName%\%serviceName%Collection::class,
             'service_name' => '%serviceName%',
         ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
-            '%apiName%\\%Version%\\RestController' => 'HalJson',
+            '%apiName%\\%Version%\\Rest\\%serviceName%\\Controller' => 'HalJson',
         ],
         'accept_whitelist' => [
-            '%apiName%\\%Version%\\RestController' => [
+            '%apiName%\\%Version%\\Rest\\%serviceName%\\Controller' => [
                 0 => 'application/vnd.%api_name%.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
         ],
         'content_type_whitelist' => [
-            '%apiName%\\%Version%\\RestController' => [
+            '%apiName%\\%Version%\\Rest\\%serviceName%\\Controller' => [
                 0 => 'application/vnd.%api_name%.v1+json',
                 1 => 'application/json',
             ],
@@ -63,13 +64,13 @@ return [
     ],
     'zf-hal' => [
         'metadata_map' => [
-            \%apiName%\\%Version%\\Rest%serviceName%Entity::class => [
+            \%apiName%\%Version%\Rest\%serviceName%\%serviceName%Entity::class => [
                 'entity_identifier_name' => '%entity_identifier_name%',
                 'route_name' => '%api_name%.rest.%service_name%',
                 'route_identifier_name' => '%route_identifier_name%',
                 'hydrator' => \Zend\Hydrator\ArraySerializable::class,
             ],
-            \%apiName%\\%Version%\\Rest%serviceName%Collection::class => [
+            \%apiName%\%Version%\Rest\%serviceName%\%serviceName%Collection::class => [
                 'entity_identifier_name' => '%entity_identifier_name%',
                 'route_name' => '%api_name%.rest.%service_name%',
                 'route_identifier_name' => '%route_identifier_name%',
@@ -78,12 +79,12 @@ return [
         ],
     ],
     'zf-content-validation' => [
-        '%apiName%\\%Version%\\RestController' => [
-            'input_filter' => '%apiName%\\%Version%\\RestValidator',
+        '%apiName%\\%Version%\\Rest\\%serviceName%\\Controller' => [
+            'input_filter' => '%apiName%\\%Version%\\Rest\\%serviceName%\\Validator',
         ],
     ],
     'input_filter_specs' => [
-        '%apiName%\\%Version%\\RestValidator' => [
+        '%apiName%\\%Version%\\Rest\\%serviceName%\\Validator' => [
         ],
     ],
 ];
