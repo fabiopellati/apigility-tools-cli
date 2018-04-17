@@ -20,6 +20,8 @@ if (file_exists($a = __DIR__ . '/../../../autoload.php')) {
 $application = new Application('cli');
 $application->addCommands(
     [
+        new \ApigilityTools\Cli\SplitConfig\SplitConfigCommand('config.split'),
+        new \ApigilityTools\Cli\SplitConfig\CompactConfigCommand('config.compact'),
         new \ApigilityTools\Cli\CreateRest\CreateRestApiCommand('create.rest.api'),
         new \ApigilityTools\Cli\CreateRest\CreateRestHasApiCommand('create.rest.has.api'),
         new \ApigilityTools\Cli\CreateRest\CreateRestServiceCommand('create.rest.service'),

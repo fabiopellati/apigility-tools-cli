@@ -8,6 +8,8 @@
 
 namespace ApigilityTools\Cli\CreateRest;
 
+use ApigilityTools\Cli\GetInteractiveParamsTrait;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,6 +20,7 @@ use Zend\Filter\Word\CamelCaseToUnderscore;
 class CreateRestHasServiceCommand
     extends Command
 {
+    use GetInteractiveParamsTrait;
     const HELP = '';
     const HELP_ARGS = [
         'api-name'           => 'fully qualified api namespace',

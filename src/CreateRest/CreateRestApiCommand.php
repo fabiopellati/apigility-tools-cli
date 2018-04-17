@@ -8,13 +8,13 @@
 
 namespace ApigilityTools\Cli\CreateRest;
 
+use ApigilityTools\Cli\GetInteractiveParamsTrait;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Filter\Word\CamelCaseToDash;
 use Zend\Filter\Word\CamelCaseToUnderscore;
-use Zend\Router\Http\Segment;
 
 class CreateRestApiCommand
     extends Command

@@ -18,7 +18,8 @@
     "zendframework/zend-code": "^3.1 || ^2.6.3",
     "zendframework/zend-stdlib": "^3.1",
     "zendframework/zend-filter": "^2.7",
-    "zendframework/zend-config": "^3.1"
+    "zendframework/zend-config": "^3.1",
+    "zendframework/zend-config-aggregator": "^1.1"
   },
   "require-dev": {
     "zfcampus/zf-apigility-admin": "^1.5"
