@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Config\Writer\PhpArray;
+use Zend\ConfigAggregator\ArrayProvider;
 use Zend\ConfigAggregator\ConfigAggregator;
 use Zend\ConfigAggregator\ZendConfigProvider;
 
@@ -36,15 +37,21 @@ class CompactConfigCommand
         try {
 //            $apiName = $this->getApiName($input, $output);
             $apiRoot = $this->getApiRoot($input, $output);
+            $aggregatorTest = new ConfigAggregator([
+                                                   new ZendConfigProvider($apiRoot .
+                                                                          '/config/autoload/apigility-split-config/*.config.php')
+                                               ]);
+            $configTest = $aggregatorTest->getMergedConfig();
+            if (empty($configTest)) {
+                throw new \Exception('apigility-split-config empty: attention!!!');
+            }
             $aggregator = new ConfigAggregator([
-                                                   new ZendConfigProvider($apiRoot . '/config/autoload/*.config.php'),
                                                    new ZendConfigProvider($apiRoot .
                                                                           '/config/autoload/**/*.config.php'),
+                                                   new ZendConfigProvider($apiRoot .
+                                                                          '/config/autoload/*.config.php'),
                                                ]);
             $config = $aggregator->getMergedConfig();
-            if (empty($config)) {
-                throw new \Exception('config empty');
-            }
             $configFile = $this->getConfigFile($apiRoot);
             $writer = new PhpArray();
             $writer->setUseBracketArraySyntax(true);
@@ -53,7 +60,6 @@ class CompactConfigCommand
             return 1;
         } catch (\Exception $e) {
             $output->writeln('<error>' . $e->getMessage() . '</error>');
-
             return 0;
         }
     }
