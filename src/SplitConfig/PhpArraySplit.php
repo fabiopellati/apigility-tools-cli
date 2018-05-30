@@ -83,10 +83,27 @@ class PhpArraySplit
             $this->setZfMvcAuth($config, $controller, $services, $routeKey, $controllers);
             $inputFilters = $this->setZfContentValidation($config, $controller, $services, $routeKey, $controllers);
             $this->setInputFilterSpecs($config, $controller, $services, $routeKey, $inputFilters);
+            $this->setServiceManager($config, $services);
         }
 
         return $services;
 
+    }
+
+    /**
+     * @param $config
+     * @param $services
+     *
+     * @return mixed
+     */
+    protected function setServiceManager($config, &$services)
+    {
+        $serviceManager = (empty($config['service_manager']))
+            ? []
+            : $config['service_manager'];
+
+        $services['service-manager']['service_manager']=$serviceManager;
+        return $services;
     }
 
     /**
