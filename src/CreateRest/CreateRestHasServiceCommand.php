@@ -38,11 +38,11 @@ class CreateRestHasServiceCommand
     {
         $this->setDescription('Create an apigility-tools standard rest service.');
         $this->setHelp(self::HELP);
-        $this->addArgument('api-name', InputArgument::REQUIRED, self::HELP_ARGS['api-name']);
-        $this->addArgument('left-service-name', InputArgument::REQUIRED, self::HELP_ARGS['left-service-name']);
-        $this->addArgument('right-service-name', InputArgument::REQUIRED, self::HELP_ARGS['right-service-name']);
-        $this->addArgument('db-schema', InputArgument::REQUIRED, self::HELP_ARGS['db-schema']);
-        $this->addArgument('db-table', InputArgument::REQUIRED, self::HELP_ARGS['db-table']);
+        $this->addArgument('api-name', InputArgument::OPTIONAL, self::HELP_ARGS['api-name']);
+        $this->addArgument('left-service-name', InputArgument::OPTIONAL, self::HELP_ARGS['left-service-name']);
+        $this->addArgument('right-service-name', InputArgument::OPTIONAL, self::HELP_ARGS['right-service-name']);
+        $this->addArgument('db-schema', InputArgument::OPTIONAL, self::HELP_ARGS['db-schema']);
+        $this->addArgument('db-table', InputArgument::OPTIONAL, self::HELP_ARGS['db-table']);
         $this->addArgument('api-root', InputArgument::OPTIONAL, self::HELP_ARGS['api-root'], '');
         $this->addOption('has-table', null, InputArgument::OPTIONAL, self::HELP_ARGS['has-table']);
         $this->addOption('db-adapter', null, InputArgument::OPTIONAL, self::HELP_ARGS['db-adapter'], 'Db\\Default');
@@ -64,6 +64,7 @@ class CreateRestHasServiceCommand
                     if (preg_match('#[-_\.,\s]#', $answer)) {
                         throw new \RuntimeException('left-service-name must be CamelCase ');
                     }
+
                     return $answer;
                 });
             $rightServiceName = $this->getOptionalArgumentValue('right-service-name', $input, $output,
@@ -71,20 +72,20 @@ class CreateRestHasServiceCommand
                     if (preg_match('#[-_\.,\s]#', $answer)) {
                         throw new \RuntimeException('right-service-name must be CamelCase ');
                     }
+
                     return $answer;
                 });
-
-            $dbAdapter = $input->getOption('db-adapter');
+            $dbAdapter = $this->getOptionalOptionValue('db-adapter', $input, $output);
             $dbSchema = $this->getOptionalArgumentValue('db-schema', $input, $output);
             $dbTable = $this->getOptionalArgumentValue('db-table', $input, $output);
-            $version = $this->getOptionalOptionValue('api-version', $input, $output, null,1, 'v1');
-            $hasTable = $this->getOptionalOptionValue('has-table',$input, $output);
+            $version = $this->getOptionalOptionValue('api-version', $input, $output, null, 1, 'v1');
+            $hasTable = $this->getOptionalOptionValue('has-table', $input, $output);
             $hasTable = $hasTable ?: strtolower($camelCaseToUnderscore->filter($leftServiceName))
-                . '_has_'. strtolower($camelCaseToUnderscore->filter($rightServiceName));
-
-            $entityAssociationIdentifierName = $input->getOption('entity_association_identifier_name',$input, $output) ;
-            $entityAssociationIdentifierName = $entityAssociationIdentifierName ?: strtolower($camelCaseToDash->filter($leftServiceName)) . '_id';
-
+                . '_has_' . strtolower($camelCaseToUnderscore->filter($rightServiceName));
+            $entityAssociationIdentifierName =
+                $this->getOptionalOptionValue('entity-association-identifier-name', $input, $output);
+            $entityAssociationIdentifierName =
+                $entityAssociationIdentifierName ?: strtolower($camelCaseToDash->filter($leftServiceName)) . '_id';
             $output->writeln('<comment>eseguito con i parametri:</comment>');
             $output->writeln(sprintf(
                                  '<comment> create.rest.service ' .
