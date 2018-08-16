@@ -9,7 +9,6 @@
 namespace ApigilityTools\Cli\CreateRest;
 
 use ApigilityTools\Cli\GetInteractiveParamsTrait;
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,10 +22,10 @@ class CreateRestHasServiceCommand
     use GetInteractiveParamsTrait;
     const HELP = '';
     const HELP_ARGS = [
-        'api-name'           => 'fully qualified api namespace',
-        'left-service-name'  => 'left side service name',
-        'right-service-name' => 'right side service name',
-        'api-version'        => 'apigility api version',
+        'api-name'                           => 'fully qualified api namespace',
+        'left-service-name'                  => 'left side service name',
+        'right-service-name'                 => 'right side service name',
+        'api-version'                        => 'apigility api version',
         'db-schema'                          => '',
         'db-table'                           => '',
         'db-adapter'                         => '',
@@ -58,44 +57,45 @@ class CreateRestHasServiceCommand
         try {
             $camelCaseToDash = new CamelCaseToDash();
             $camelCaseToUnderscore = new CamelCaseToUnderscore();
-            $apiName = $input->getArgument('api-name');
-            $apiRoot = $input->getArgument('api-root');
-            if (preg_match('#[-_\.,\s]#', $apiName)) {
-                throw new \Exception('api-name must be CamelCase ');
-            }
-            $leftServiceName = $input->getArgument('left-service-name');
-            if (preg_match('#[-_\.,\s]#', $leftServiceName)) {
-                throw new \Exception('left-service-name must be CamelCase ');
-            }
-            $rightServiceName = $input->getArgument('right-service-name');
-            if (preg_match('#[-_\.,\s]#', $rightServiceName)) {
-                throw new \Exception('right-service-name must be CamelCase ');
-            }
-            $dbAdapter = $input->getOption('db-adapter');
-            $dbSchema = $input->getArgument('db-schema');
-            $dbTable = $input->getArgument('db-table');
-            $version = $input->getOption('api-version');
-            $hasTable = $input->getOption('has-table') ?:
-                strtolower($camelCaseToUnderscore->filter($leftServiceName))
-                . '_has_'
-                . strtolower($camelCaseToUnderscore->filter($rightServiceName));;
-            $entityAssociationIdentifierName = $input->getOption('entity_association_identifier_name') ?: strtolower
-                ($camelCaseToDash->filter($leftServiceName)) . '_id';
+            $apiName = $this->getApiName($input, $output);
+            $apiRoot = $this->getApiRoot($input, $output);
+            $leftServiceName = $this->getOptionalArgumentValue('left-service-name', $input, $output,
+                function ($answer) use ($output) {
+                    if (preg_match('#[-_\.,\s]#', $answer)) {
+                        throw new \RuntimeException('left-service-name must be CamelCase ');
+                    }
+                    return $answer;
+                });
+            $rightServiceName = $this->getOptionalArgumentValue('right-service-name', $input, $output,
+                function ($answer) use ($output) {
+                    if (preg_match('#[-_\.,\s]#', $answer)) {
+                        throw new \RuntimeException('right-service-name must be CamelCase ');
+                    }
+                    return $answer;
+                });
 
+            $dbAdapter = $input->getOption('db-adapter');
+            $dbSchema = $this->getOptionalArgumentValue('db-schema', $input, $output);
+            $dbTable = $this->getOptionalArgumentValue('db-table', $input, $output);
+            $version = $this->getOptionalOptionValue('api-version', $input, $output, null,1, 'v1');
+            $hasTable = $this->getOptionalOptionValue('has-table',$input, $output);
+            $hasTable = $hasTable ?: strtolower($camelCaseToUnderscore->filter($leftServiceName))
+                . '_has_'. strtolower($camelCaseToUnderscore->filter($rightServiceName));
+
+            $entityAssociationIdentifierName = $input->getOption('entity_association_identifier_name',$input, $output) ;
+            $entityAssociationIdentifierName = $entityAssociationIdentifierName ?: strtolower($camelCaseToDash->filter($leftServiceName)) . '_id';
 
             $output->writeln('<comment>eseguito con i parametri:</comment>');
             $output->writeln(sprintf(
-                                 '<comment> create.rest.service '.
-                                 '--api-version=%s --db-adapter=%s --entity-association-identifier-name=%s'.
+                                 '<comment> create.rest.service ' .
+                                 '--api-version=%s --db-adapter=%s --entity-association-identifier-name=%s' .
                                  ' %s %s %s %s %s %s </comment>',
                                  $version, $dbAdapter, $entityAssociationIdentifierName,
-                                 $apiName, $leftServiceName,$rightServiceName, $dbSchema, $dbTable, $apiRoot
+                                 $apiName, $leftServiceName, $rightServiceName, $dbSchema, $dbTable, $apiRoot
                              )
             );
-
-
             $this->writeConfig($apiName, $leftServiceName, $rightServiceName, $version, $dbAdapter, $dbSchema, $dbTable,
-                               $apiRoot,$hasTable, $entityAssociationIdentifierName);
+                               $apiRoot, $hasTable, $entityAssociationIdentifierName);
 
             return 1;
         } catch (\Exception $e) {
