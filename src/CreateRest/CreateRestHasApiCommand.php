@@ -76,7 +76,7 @@ class CreateRestHasApiCommand
 
             $output->writeln('<comment>eseguito con i parametri:</comment>');
             $output->writeln(sprintf(
-                                 '<comment> create.rest.api '.
+                                 '<comment> create.rest.has.api '.
                                  ' --api-version=%s --route-basepath=%s --route-identifier-name=%s'.
                                  ' --entity-identifier-name=%s '.
                                  ' %s %s %s %s </comment>',

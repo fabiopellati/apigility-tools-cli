@@ -67,7 +67,7 @@ return [
 
                 ],
             ],
-            __NAMESPACE__ . '\\%rightService%Has%leftService%Entity'   => [
+            __NAMESPACE__ . '\\%rightServiceName%Has%leftServiceName%Entity'   => [
                 'entity-listeners' => [
                 ],
             ],

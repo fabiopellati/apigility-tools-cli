@@ -88,7 +88,7 @@ class CreateRestHasServiceCommand
                 $entityAssociationIdentifierName ?: strtolower($camelCaseToDash->filter($leftServiceName)) . '_id';
             $output->writeln('<comment>eseguito con i parametri:</comment>');
             $output->writeln(sprintf(
-                                 '<comment> create.rest.service ' .
+                                 '<comment> create.rest.has.service ' .
                                  '--api-version=%s --db-adapter=%s --entity-association-identifier-name=%s' .
                                  ' %s %s %s %s %s %s </comment>',
                                  $version, $dbAdapter, $entityAssociationIdentifierName,
