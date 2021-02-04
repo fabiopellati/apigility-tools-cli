@@ -15,12 +15,12 @@ return [
             ],
         ],
     ],
-    'zf-versioning' => [
+    'api-tools-versioning' => [
         'uri' => [
             '%api_name%.rest.%service_name%' => '%api_name%.rest.%service_name%',
         ],
     ],
-    'zf-rest' => [
+    'api-tools-rest' => [
         '%apiName%\\%Version%\\Rest\\%serviceName%\\Controller' => [
             'listener' => '%apiName%\\%Version%\\Rest\\%serviceName%\\%serviceName%Resource',
             'route_name' => '%api_name%.rest.%service_name%',
@@ -44,7 +44,7 @@ return [
             'service_name' => '%serviceName%',
         ],
     ],
-    'zf-content-negotiation' => [
+    'api-tools-content-negotiation' => [
         'controllers' => [
             '%apiName%\\%Version%\\Rest\\%serviceName%\\Controller' => 'HalJson',
         ],
@@ -62,13 +62,13 @@ return [
             ],
         ],
     ],
-    'zf-hal' => [
+    'api-tools-hal' => [
         'metadata_map' => [
             \%apiName%\%Version%\Rest\%serviceName%\%serviceName%Entity::class => [
                 'entity_identifier_name' => '%entity_identifier_name%',
                 'route_name' => '%api_name%.rest.%service_name%',
                 'route_identifier_name' => '%route_identifier_name%',
-                'hydrator' => \Zend\Hydrator\ArraySerializable::class,
+                'hydrator' => \Laminas\Hydrator\ArraySerializable::class,
             ],
             \%apiName%\%Version%\Rest\%serviceName%\%serviceName%Collection::class => [
                 'entity_identifier_name' => '%entity_identifier_name%',
@@ -78,7 +78,7 @@ return [
             ],
         ],
     ],
-    'zf-content-validation' => [
+    'api-tools-content-validation' => [
         '%apiName%\\%Version%\\Rest\\%serviceName%\\Controller' => [
             'input_filter' => '%apiName%\\%Version%\\Rest\\%serviceName%\\Validator',
         ],

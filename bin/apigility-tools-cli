@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-namespace Zend\Expressive\Tooling;
+namespace Mezzio\Tooling;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;

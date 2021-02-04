@@ -7,10 +7,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Zend\Config\Writer\PhpArray;
-use Zend\ConfigAggregator\ArrayProvider;
-use Zend\ConfigAggregator\ConfigAggregator;
-use Zend\ConfigAggregator\ZendConfigProvider;
+use Laminas\Config\Writer\PhpArray;
+use Laminas\ConfigAggregator\ArrayProvider;
+use Laminas\ConfigAggregator\ConfigAggregator;
+use Laminas\ConfigAggregator\LaminasConfigProvider;
 
 class CompactConfigCommand
     extends Command
@@ -38,7 +38,7 @@ class CompactConfigCommand
 //            $apiName = $this->getApiName($input, $output);
             $apiRoot = $this->getApiRoot($input, $output);
             $aggregatorTest = new ConfigAggregator([
-                                                   new ZendConfigProvider($apiRoot .
+                                                   new LaminasConfigProvider($apiRoot .
                                                                           '/config/autoload/apigility-split-config/*.config.php')
                                                ]);
             $configTest = $aggregatorTest->getMergedConfig();
@@ -46,9 +46,9 @@ class CompactConfigCommand
                 throw new \Exception('apigility-split-config empty: attention!!!');
             }
             $aggregator = new ConfigAggregator([
-                                                   new ZendConfigProvider($apiRoot .
+                                                   new LaminasConfigProvider($apiRoot .
                                                                           '/config/autoload/**/*.config.php'),
-                                                   new ZendConfigProvider($apiRoot .
+                                                   new LaminasConfigProvider($apiRoot .
                                                                           '/config/autoload/*.config.php'),
                                                ]);
             $config = $aggregator->getMergedConfig();

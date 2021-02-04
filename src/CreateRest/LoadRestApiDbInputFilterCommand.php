@@ -13,11 +13,11 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Zend\Config\Factory;
-use Zend\Config\Writer\PhpArray;
-use Zend\Filter\Word\CamelCaseToDash;
-use Zend\ServiceManager\ServiceManager;
-use ZF\Apigility\Admin\Model\DbAutodiscoveryModel;
+use Laminas\Config\Factory;
+use Laminas\Config\Writer\PhpArray;
+use Laminas\Filter\Word\CamelCaseToDash;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\ApiTools\Admin\Model\DbAutodiscoveryModel;
 
 class LoadRestApiDbInputFilterCommand
     extends Command

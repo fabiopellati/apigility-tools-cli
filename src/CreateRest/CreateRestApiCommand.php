@@ -13,8 +13,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Zend\Filter\Word\CamelCaseToDash;
-use Zend\Filter\Word\CamelCaseToUnderscore;
+use Laminas\Filter\Word\CamelCaseToDash;
+use Laminas\Filter\Word\CamelCaseToUnderscore;
 
 class CreateRestApiCommand
     extends Command

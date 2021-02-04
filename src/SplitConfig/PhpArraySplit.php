@@ -11,10 +11,10 @@
 
 namespace ApigilityTools\Cli\SplitConfig;
 
-use Zend\Stdlib\ArrayUtils;
+use Laminas\Stdlib\ArrayUtils;
 
 class PhpArraySplit
-    extends \Zend\Config\Writer\PhpArray
+    extends \Laminas\Config\Writer\PhpArray
 {
 
     public function toFile($filename, $config, $exclusiveLock = true)
@@ -114,15 +114,15 @@ class PhpArraySplit
      */
     protected function setZfVersioning($routeKey, &$services)
     {
-        if (!empty($services[$routeKey]['zf-versioning']['uri'])) {
-            foreach ($services[$routeKey]['zf-versioning']['uri'] as $key => $service) {
+        if (!empty($services[$routeKey]['api-tools-versioning']['uri'])) {
+            foreach ($services[$routeKey]['api-tools-versioning']['uri'] as $key => $service) {
                 if ($key != $service) {
-                    $services[$routeKey]['zf-versioning']['uri'] = [$service => $service];
-                    unset($services[$routeKey]['zf-versioning']['uri'][$key]);
+                    $services[$routeKey]['api-tools-versioning']['uri'] = [$service => $service];
+                    unset($services[$routeKey]['api-tools-versioning']['uri'][$key]);
                 }
             }
         }
-        $services[$routeKey]['zf-versioning']['uri'][$routeKey] = $routeKey;
+        $services[$routeKey]['api-tools-versioning']['uri'][$routeKey] = $routeKey;
 
         return $services;
     }
@@ -131,7 +131,7 @@ class PhpArraySplit
      * verifica se due controller sono versioni distinte dello stesso controller.
      * per la specifica fare riferimento a
      *
-     * @see \ZF\Versioning\VersionListener: onRoute
+     * @see \Laminas\ApiTools\Versioning\VersionListener: onRoute
      *
      * @param $controller
      * @param $sectionKey
@@ -171,9 +171,9 @@ class PhpArraySplit
         $collections = [];
         $serviceNames = [];
         $controllers = [];
-        $zfRest = (empty($config['zf-rest']))
+        $zfRest = (empty($config['api-tools-rest']))
             ? []
-            : $config['zf-rest'];
+            : $config['api-tools-rest'];
         foreach ($zfRest as $sectionKey => $sectionConfig) {
             $isVersionOfController = $this->isVersionOfController($controller, $sectionKey);
             if ($isVersionOfController) {
@@ -185,7 +185,7 @@ class PhpArraySplit
                 }
                 $serviceNames[] = $sectionConfig['service_name'];
                 $controllers[] = $sectionKey;
-                $services[$routeKey]['zf-rest'][$sectionKey] = $sectionConfig;
+                $services[$routeKey]['api-tools-rest'][$sectionKey] = $sectionConfig;
             };
         }
 
@@ -204,15 +204,15 @@ class PhpArraySplit
     {
         $serviceNames = [];
         $controllers = [];
-        $zfRpc = (empty($config['zf-rpc']))
+        $zfRpc = (empty($config['api-tools-rpc']))
             ? []
-            : $config['zf-rpc'];
+            : $config['api-tools-rpc'];
         foreach ($zfRpc as $sectionKey => $sectionConfig) {
             $isVersionOfController = $this->isVersionOfController($controller, $sectionKey);
             if ($isVersionOfController) {
                 $serviceNames[] = $sectionConfig['service_name'];
                 $controllers[] = $sectionKey;
-                $services[$routeKey]['zf-rpc'][$sectionKey] = $sectionConfig;
+                $services[$routeKey]['api-tools-rpc'][$sectionKey] = $sectionConfig;
             };
         }
 
@@ -229,31 +229,31 @@ class PhpArraySplit
     protected function setZfContentNegotiation($config, $controller, &$services, $routeKey)
     {
 
-        $controllers = (empty($config['zf-content-negotiation']['controllers']))
+        $controllers = (empty($config['api-tools-content-negotiation']['controllers']))
             ? []
-            : $config['zf-content-negotiation']['controllers'];
+            : $config['api-tools-content-negotiation']['controllers'];
         foreach ($controllers as $sectionKey => $sectionConfig) {
             $isVersionOfController = $this->isVersionOfController($controller, $sectionKey);
             if ($isVersionOfController) {
-                $services[$routeKey]['zf-content-negotiation']['controllers'][$sectionKey] = $sectionConfig;
+                $services[$routeKey]['api-tools-content-negotiation']['controllers'][$sectionKey] = $sectionConfig;
             };
         }
-        $acceptWhitelist = (empty($config['zf-content-negotiation']['accept_whitelist']))
+        $acceptWhitelist = (empty($config['api-tools-content-negotiation']['accept_whitelist']))
             ? []
-            : $config['zf-content-negotiation']['accept_whitelist'];
+            : $config['api-tools-content-negotiation']['accept_whitelist'];
         foreach ($acceptWhitelist as $sectionKey => $sectionConfig) {
             $isVersionOfController = $this->isVersionOfController($controller, $sectionKey);
             if ($isVersionOfController) {
-                $services[$routeKey]['zf-content-negotiation']['accept_whitelist'][$sectionKey] = $sectionConfig;
+                $services[$routeKey]['api-tools-content-negotiation']['accept_whitelist'][$sectionKey] = $sectionConfig;
             };
         }
-        $contentTypeWhitelist = (empty($config['zf-content-negotiation']['content_type_whitelist']))
+        $contentTypeWhitelist = (empty($config['api-tools-content-negotiation']['content_type_whitelist']))
             ? [] :
-            $config['zf-content-negotiation']['content_type_whitelist'];
+            $config['api-tools-content-negotiation']['content_type_whitelist'];
         foreach ($contentTypeWhitelist as $sectionKey => $sectionConfig) {
             $isVersionOfController = $this->isVersionOfController($controller, $sectionKey);
             if ($isVersionOfController) {
-                $services[$routeKey]['zf-content-negotiation']['content_type_whitelist'][$sectionKey] = $sectionConfig;
+                $services[$routeKey]['api-tools-content-negotiation']['content_type_whitelist'][$sectionKey] = $sectionConfig;
             };
         }
 
@@ -270,10 +270,10 @@ class PhpArraySplit
      */
     protected function setZfHal($config, $controller, &$services, $routeKey, $entities, $collections)
     {
-        $metadataMap = (empty($config['zf-hal']['metadata_map'])) ? [] : $config['zf-hal']['metadata_map'];
+        $metadataMap = (empty($config['api-tools-hal']['metadata_map'])) ? [] : $config['api-tools-hal']['metadata_map'];
         foreach ($metadataMap as $sectionKey => $sectionConfig) {
             if (in_array($sectionKey, $entities) || in_array($sectionKey, $collections)) {
-                $services[$routeKey]['zf-hal']['metadata_map'][$sectionKey] = $sectionConfig;
+                $services[$routeKey]['api-tools-hal']['metadata_map'][$sectionKey] = $sectionConfig;
             };
         }
 
@@ -309,10 +309,10 @@ class PhpArraySplit
     protected function setZfMvcAuth($config, $controller, &$services, $routeKey, $controllers)
     {
         $authorization =
-            (empty($config['zf-mvc-auth']['authorization'])) ? [] : $config['zf-mvc-auth']['authorization'];
+            (empty($config['api-tools-mvc-auth']['authorization'])) ? [] : $config['api-tools-mvc-auth']['authorization'];
         foreach ($authorization as $sectionKey => $sectionConfig) {
             if (in_array($sectionKey, $controllers)) {
-                $services[$routeKey]['zf-mvc-auth']['authorization'][$sectionKey] = $sectionConfig;
+                $services[$routeKey]['api-tools-mvc-auth']['authorization'][$sectionKey] = $sectionConfig;
             };
         }
 
@@ -330,11 +330,11 @@ class PhpArraySplit
     protected function setZfContentValidation($config, $controller, &$services, $routeKey, $controllers)
     {
         $inputFilters = [];
-        $zfContentValidation = (empty($config['zf-content-validation'])) ? [] : $config['zf-content-validation'];
+        $zfContentValidation = (empty($config['api-tools-content-validation'])) ? [] : $config['api-tools-content-validation'];
         foreach ($zfContentValidation as $sectionKey => $sectionConfig) {
             if (in_array($sectionKey, $controllers)) {
                 $inputFilters[] = $sectionConfig['input_filter'];
-                $services[$routeKey]['zf-content-validation'][$sectionKey] = $sectionConfig;
+                $services[$routeKey]['api-tools-content-validation'][$sectionKey] = $sectionConfig;
             };
         }
 

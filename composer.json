@@ -1,46 +1,44 @@
 {
-  "name": "fabiopellati/apigility-tools-cli",
-  "description": "Cli command tool for development with apigility-tools",
-  "license": "BSD-3-Clause",
-  "authors": [
-    {
-      "name": "Fabio Pellati",
-      "email": "fabio.pellati@gmail.com"
+    "name": "fabiopellati/apigility-tools-cli",
+    "description": "Cli command tool for development with apigility-tools",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Fabio Pellati",
+            "email": "fabio.pellati@gmail.com"
+        }
+    ],
+    "repositories": [],
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.3",
+        "symfony/console": "^5.2",
+        "laminas/laminas-code": "^3.5",
+        "laminas/laminas-stdlib": "^3.3",
+        "laminas/laminas-filter": "^2.10",
+        "laminas/laminas-config": "^3.4",
+        "laminas/laminas-config-aggregator": "^1.4"
+    },
+    "require-dev": {
+        "laminas-api-tools/api-tools-admin": "^1.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "ApigilityTools\\Cli\\": "src/"
+        }
+    },
+    "bin": [
+        "bin/apigility-tools-cli"
+    ],
+    "scripts": {
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit"
+    },
+    "extra": {
+        "laminas": {
+            "component": []
+        }
     }
-  ],
-  "repositories": [
-  ],
-  "minimum-stability": "stable",
-  "prefer-stable": true,
-  "require": {
-    "php": "^5.6 || ^7.0",
-    "symfony/console": "^2.8 || ^3.0 || ^4.0",
-    "zendframework/zend-code": "^3.1 || ^2.6.3",
-    "zendframework/zend-stdlib": "^3.1",
-    "zendframework/zend-filter": "^2.7",
-    "zendframework/zend-config": "^3.1",
-    "zendframework/zend-config-aggregator": "^1.1"
-  },
-  "require-dev": {
-    "zfcampus/zf-apigility-admin": "^1.5"
-  },
-  "autoload": {
-    "psr-4": {
-      "ApigilityTools\\Cli\\": "src/"
-    }
-  },
-  "bin": [
-    "bin/apigility-tools-cli"
-  ],
-  "scripts": {
-    "cs-check": "phpcs",
-    "cs-fix": "phpcbf",
-    "test": "phpunit"
-  },
-  "extra": {
-    "zf": {
-      "component": [
-      ]
-    }
-  }
 }

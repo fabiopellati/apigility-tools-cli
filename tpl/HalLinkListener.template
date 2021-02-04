@@ -2,17 +2,17 @@
 
 namespace %apiName%\%Version%\Rest\%serviceName%;
 
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\Event;
-use Zend\EventManager\EventManagerInterface;
-use ZF\Hal\Link\Link;
-use Zend\Router\RouteMatch;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\Event;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\ApiTools\Hal\Link\Link;
+use Laminas\Router\RouteMatch;
 
 class HalLinkListener
     extends AbstractListenerAggregate
 {
     /**
-     * @var \Zend\Router\RouteMatch
+     * @var \Laminas\Router\RouteMatch
      */
     protected $routeMatch;
 
