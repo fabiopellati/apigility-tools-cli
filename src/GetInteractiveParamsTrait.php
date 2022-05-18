@@ -74,6 +74,7 @@ trait GetInteractiveParamsTrait
 
         return $value;
     }
+
     /**
      * @param \Symfony\Component\Console\Input\InputInterface   $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
@@ -98,21 +99,27 @@ trait GetInteractiveParamsTrait
      * @param \Symfony\Component\Console\Input\InputInterface   $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
-     * @return array
+     * @return string
      */
     protected function getApiRoot(InputInterface $input, OutputInterface $output)
     {
-        $value = $this->getOptionalArgumentValue('api-root', $input, $output,
+        $value = $this->getOptionalArgumentValue(
+            'api-root',
+            $input,
+            $output,
             function ($answer) use ($output) {
-                if (!is_dir($answer) || !is_writable($answer)) {
+                $apiRoot = sprintf('./data/%s', $answer);
+                $output->writeLn(sprintf('api-root: %s', $apiRoot));
+                if (!is_dir($apiRoot) || !is_writable($apiRoot)) {
                     throw new \RuntimeException(sprintf('The "%s" is not a directory or is not writable', $answer));
                 }
-                return $answer;
-            });
-        return $value;
+
+                return $apiRoot;
+            }
+        );
+                $apiRoot = sprintf('./data/%s', $value);
+        return $apiRoot;
     }
-
-
 
     /**
      * @param                                                   $argument
@@ -124,18 +131,23 @@ trait GetInteractiveParamsTrait
      *
      * @return array
      */
-    protected function getOptionalArgumentValue($argument, InputInterface $input, OutputInterface $output,
-                                                $validator = null, $attemp = null, $default=null)
-    {
+    protected function getOptionalArgumentValue(
+        $argument,
+        InputInterface $input,
+        OutputInterface $output,
+        $validator = null,
+        $attemp = null,
+        $default = null
+    ) {
         $value = $input->getArgument($argument);
         while (empty($value)) {
             $question = new Question(
-                sprintf('<question>%s [%s]:</question> ',$argument ,$default),
-                $default);
+                sprintf('<question>%s [%s]:</question> ', $argument, $default),
+                $default
+            );
             if (!empty($validator)) {
                 $question->setValidator($validator);
             }
-
             $question->setMaxAttempts($attemp);
             $value = $this->getHelper('question')->ask($input, $output, $question);
         }
@@ -153,15 +165,21 @@ trait GetInteractiveParamsTrait
      *
      * @return array
      */
-    protected function getOptionalOptionValue($option, InputInterface $input, OutputInterface $output, $validator =
-    null, $attemp = 1, $default=null)
-    {
+    protected function getOptionalOptionValue(
+        $option,
+        InputInterface $input,
+        OutputInterface $output,
+        $validator =
+        null,
+        $attemp = 1,
+        $default = null
+    ) {
         $value = $input->getOption($option);
-
-        while (empty($value) && $value!==$default ) {
+        while (empty($value) && $value !== $default) {
             $question = new Question(
-                sprintf('<question>%s [%s]:</question> ',$option ,$default),
-                $default);
+                sprintf('<question>%s [%s]:</question> ', $option, $default),
+                $default
+            );
             if (!empty($validator)) {
                 $question->setValidator($validator);
             }

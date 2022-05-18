@@ -65,7 +65,7 @@ class SplitConfigCommand
     protected function getSplitConfigPath($root)
     {
 
-        $cwd = realpath(getcwd() . '/' . $root);
+        $cwd = realpath( $root);
         $config = "$cwd/config";
         $autoload = "$config/autoload";
         $split = "$autoload/apigility-split-config";
@@ -90,7 +90,7 @@ class SplitConfigCommand
     protected function getConfigFile($root)
     {
 
-        $cwd = realpath(getcwd() . '/' . $root);
+        $cwd = realpath( $root);
         $config = "$cwd/config/module.config.php";
 
         return $config;

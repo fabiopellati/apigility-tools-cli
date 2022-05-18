@@ -37,6 +37,8 @@ class CompactConfigCommand
         try {
 //            $apiName = $this->getApiName($input, $output);
             $apiRoot = $this->getApiRoot($input, $output);
+            $output->writeLn(sprintf('api-root: %s', $apiRoot));
+
             $aggregatorTest = new ConfigAggregator([
                                                    new LaminasConfigProvider($apiRoot .
                                                                           '/config/autoload/apigility-split-config/*.config.php')
@@ -55,6 +57,7 @@ class CompactConfigCommand
             $configFile = $this->getConfigFile($apiRoot);
             $writer = new PhpArray();
             $writer->setUseBracketArraySyntax(true);
+
             $writer->toFile($configFile, $config);
             $this->clearSplitConfigDir($apiRoot, $output);
             return 1;
@@ -72,7 +75,7 @@ class CompactConfigCommand
     protected function getSplitConfigPath($root)
     {
 
-        $cwd = realpath(getcwd() . '/' . $root);
+        $cwd = realpath( $root);
         $config = "$cwd/config";
         $autoload = "$config/autoload";
         $split = "$autoload/apigility-split-config";
@@ -96,7 +99,7 @@ class CompactConfigCommand
     protected function clearSplitConfigDir($root, $output)
     {
 
-        $cwd = realpath(getcwd() . '/' . $root);
+        $cwd = realpath( $root);
         $config = "$cwd/config";
         $autoload = "$config/autoload";
         $split = "$autoload/apigility-split-config";
@@ -125,7 +128,7 @@ class CompactConfigCommand
     protected function getConfigFile($root)
     {
 
-        $cwd = realpath(getcwd() . '/' . $root);
+        $cwd = realpath($root);
         $config = "$cwd/config/module.config.php";
 
         return $config;
