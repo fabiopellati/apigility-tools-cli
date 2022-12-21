@@ -18,7 +18,7 @@ composer: ## Start Composer
 	@echo ""
 	@echo "\033[92mRun the 'docker-compose' with composer console \033[0m"
 	@echo ""
-	$(DOCKER_COMPOSE) composer  --env-file .dev.env --file docker-compose-dev.yml run
+	$(DOCKER_COMPOSE) --env-file .dev.env --file docker-compose-dev.yml run --entrypoint "/bin/bash" composer
 
 composer_update: ## Start composer
 	@echo ""
@@ -35,8 +35,7 @@ composer_dump_autoload: ## Start composer
 		run --entrypoint "composer dump-autoload" composer
 
 ##@ Docker related
-
-docker-build: ## Start application
+build: ## Build application
 	@echo ""
 	@echo "\033[92mStarting the 'docker-compose' infrastructure and services...\033[0m"
 	@echo ""
@@ -44,7 +43,6 @@ docker-build: ## Start application
 
 
 ##@ Main Targets
-
 
 info: ## Show info
 	@echo ""
